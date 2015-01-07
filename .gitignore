@@ -1,0 +1,14 @@
+.cache
+.classpath
+.project
+.settings
+.gradle
+.idea
+*.iml
+
+.DS_Store
+
+bin
+target
+build
+
