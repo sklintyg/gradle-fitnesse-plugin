@@ -16,7 +16,7 @@ class Fitnesse extends DefaultTask {
         project.javaexec {
             main = "fitnesse.FitNesse"
             classpath = project.configurations.fitnesse
-            systemProperties(["maven.classpath": mavenPathAsWikiPaths()])
+            systemProperties = ["maven.classpath": mavenPathAsWikiPaths()]
             args = ['-p', getPort(), '-e', '0', '-d', currentWorkDir, '-r', getRoot(), '-o'] + extraArgs
         }
     }
