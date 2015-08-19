@@ -8,15 +8,18 @@ configurations {
     deployerJars
 }
 
-ext.cloudbeesUsername = System.properties['cloudbeesUsername']
-ext.cloudbeesPassword = System.properties['cloudbeesPassword']
+ext.nexusUsername = System.properties['nexusUsername']
+ext.nexusPassword = System.properties['nexusPassword']
 
 uploadArchives {
     repositories {
         mavenDeployer {
             configuration = configurations.deployerJars
-            repository(url: "dav:https://repository-callistasoftware.forge.cloudbees.com/snapshot/") {
-                authentication(userName: cloudbeesUsername, password: cloudbeesPassword)
+            repository(url: "https://build-inera.nordicmedtest.se/nexus/content/repositories/releases") {
+                authentication(userName: nexusUsername, password: nexusPassword)
+            }
+            snapshotRepository(url: "https://build-inera.nordicmedtest.se/nexus/content/repositories/snapshots") {
+                authentication(userName: nexusUsername, password: nexusPassword)
             }
         }
     }
@@ -32,7 +35,7 @@ dependencies {
     compile gradleApi()
     compile "org.codehaus.groovy:groovy-all:2.3.6"
 
-    testCompile 'org.spockframework:spock-core:1.0-groovy-2.0-SNAPSHOT'
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.3'
 
     deployerJars "org.apache.maven.wagon:wagon-webdav:1.0-beta-2"
 }
