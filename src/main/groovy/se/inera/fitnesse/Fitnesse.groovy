@@ -2,11 +2,13 @@ package se.inera.fitnesse
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
+import org.gradle.internal.SystemProperties;
 
 class Fitnesse extends DefaultTask {
     def port
     def root
     def workingDir
+    def extraProperties
     def extraArgs = []
 
     @TaskAction
@@ -17,6 +19,7 @@ class Fitnesse extends DefaultTask {
             main = "fitnesse.FitNesse"
             classpath = project.configurations.fitnesse
             systemProperties = ["maven.classpath": mavenPathAsWikiPaths()]
+            systemProperties << getExtraProperties()
             args = ['-p', getPort(), '-e', '0', '-d', currentWorkDir, '-r', getRoot(), '-o'] + extraArgs
         }
     }

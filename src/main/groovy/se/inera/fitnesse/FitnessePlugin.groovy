@@ -35,6 +35,7 @@ class FitnessePlugin implements Plugin<Project> {
             conventionMapping.port = { extension.port }
             conventionMapping.root = { extension.root }
             conventionMapping.workingDir = { extension.workingDir }
+            conventionMapping.extraProperties = { extension.extraProperties }
         }
     }
 
