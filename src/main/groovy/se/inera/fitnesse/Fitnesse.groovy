@@ -10,17 +10,25 @@ class Fitnesse extends DefaultTask {
     def workingDir
     def extraProperties
     def extraArgs = []
+    def wikiStartPage
+    def boolean useStartPage = false
 
     @TaskAction
     def runFitnesse() {
-        // Defining this variable is a workaround for "getWorkingDir()" returning empty when used within javaexec
-        def currentWorkDir = getWorkingDir()
+        def startArgs
+
+        if (!useStartPage) {
+            startArgs = ['-p', getPort(), '-e', '0', '-d', getWorkingDir(),'-r', getRoot(), '-o'] + extraArgs
+        } else {
+            startArgs = ['-p', getPort(), '-e', '0', '-d', getWorkingDir(), '-c', getWikiStartPage()+'?suite&format=text','-r', getRoot(), '-o'] + extraArgs
+        }
+
         project.javaexec {
             main = "fitnesse.FitNesse"
             classpath = project.configurations.fitnesse
             systemProperties = ["maven.classpath": mavenPathAsWikiPaths()]
             systemProperties << getExtraProperties()
-            args = ['-p', getPort(), '-e', '0', '-d', currentWorkDir, '-r', getRoot(), '-o'] + extraArgs
+            args = startArgs
         }
     }
 

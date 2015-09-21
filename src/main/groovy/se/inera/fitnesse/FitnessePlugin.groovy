@@ -28,7 +28,7 @@ class FitnessePlugin implements Plugin<Project> {
         project.task('fitnesseTest', type: Fitnesse, dependsOn: project.build) {
             description "Run Fitnesse tests, outputting summary to console"
             outputs.upToDateWhen { false }
-            extraArgs = ['-c', 'StatisticsTests?suite&format=text']
+            useStartPage = true
         }
 
         project.tasks.withType(Fitnesse) {
@@ -36,6 +36,7 @@ class FitnessePlugin implements Plugin<Project> {
             conventionMapping.root = { extension.root }
             conventionMapping.workingDir = { extension.workingDir }
             conventionMapping.extraProperties = { extension.extraProperties }
+            conventionMapping.wikiStartPage = { extension.wikiStartPage }
         }
     }
 
