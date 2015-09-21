@@ -34,7 +34,6 @@ class FitnessePluginSpec extends Specification {
         wikiTask.getPort() == 8125
         wikiTask.getRoot() == "myFitNesseRoot"
         wikiTask.getWorkingDir() == "src/test/fitnesseStart"
-        wikiTask.extraArgs.size() == 0
 
         Task testTask = project.tasks.findByName(TEST_TASK_NAME)
         testTask != null
@@ -42,7 +41,6 @@ class FitnessePluginSpec extends Specification {
         testTask.getPort() == 8125
         testTask.getRoot() == "myFitNesseRoot"
         testTask.getWorkingDir() == "src/test/fitnesseStart"
-        testTask.extraArgs.size() == 2
     }
 
 }
