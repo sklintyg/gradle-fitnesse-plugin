@@ -11,7 +11,9 @@ class Fitnesse extends DefaultTask {
     def extraProperties
     def extraArgs = []
     def wikiStartPage
+    def outputFormat
     def boolean useStartPage = false
+    def boolean outputToFile = false
 
     @TaskAction
     def runFitnesse() {
@@ -20,9 +22,12 @@ class Fitnesse extends DefaultTask {
         if (!useStartPage) {
             startArgs = ['-p', getPort(), '-e', '0', '-d', getWorkingDir(),'-r', getRoot(), '-o'] + extraArgs
         } else {
-            startArgs = ['-p', getPort(), '-e', '0', '-d', getWorkingDir(), '-c', getWikiStartPage()+'?suite&format=text','-r', getRoot(), '-o'] + extraArgs
+            startArgs = ['-p', getPort(), '-e', '0', '-d', getWorkingDir(), '-c', getWikiStartPage()+"?suite&format="+getOutputFormat(),'-r', getRoot(), '-o'] + extraArgs
         }
 
+        if (outputToFile) {
+            startArgs.addAll(['-b', 'fitnesse-results.xml'])
+        }
         project.javaexec {
             main = "fitnesse.FitNesse"
             classpath = project.configurations.fitnesse

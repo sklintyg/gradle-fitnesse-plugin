@@ -7,4 +7,5 @@ class FitnessePluginExtension {
     def extraProperties = [:]
     // Default to StatisticsTests to preserve compability with Statistik-project.
     def wikiStartPage = "StatisticsTests"
+    def outputFormat = "text"
 }

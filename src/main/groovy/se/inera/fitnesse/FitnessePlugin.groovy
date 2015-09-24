@@ -29,6 +29,9 @@ class FitnessePlugin implements Plugin<Project> {
             description "Run Fitnesse tests, outputting summary to console"
             outputs.upToDateWhen { false }
             useStartPage = true
+            if (project.hasProperty('fileOutput')) {
+                outputToFile = true
+            }
         }
 
         project.tasks.withType(Fitnesse) {
@@ -37,6 +40,7 @@ class FitnessePlugin implements Plugin<Project> {
             conventionMapping.workingDir = { extension.workingDir }
             conventionMapping.extraProperties = { extension.extraProperties }
             conventionMapping.wikiStartPage = { extension.wikiStartPage }
+            conventionMapping.outputFormat = { extension.outputFormat } 
         }
     }
 
