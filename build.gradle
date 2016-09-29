@@ -2,41 +2,36 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 
 group = 'se.inera.intyg'
-version = '1.0-SNAPSHOT'
+
+def baseVersion = '1.0.'
+version = System.env.BUILD_NUMBER != null ? baseVersion + System.env.BUILD_NUMBER : '1.1-SNAPSHOT'
 
 configurations {
     deployerJars
 }
-
-ext.nexusUsername = System.properties['nexusUsername']
-ext.nexusPassword = System.properties['nexusPassword']
 
 uploadArchives {
     repositories {
         mavenDeployer {
             configuration = configurations.deployerJars
             repository(url: "https://build-inera.nordicmedtest.se/nexus/content/repositories/releases") {
-                authentication(userName: nexusUsername, password: nexusPassword)
+                authentication(userName: System.properties['nexusUsername'], password: System.properties['nexusPassword'])
             }
-            snapshotRepository(url: "https://build-inera.nordicmedtest.se/nexus/content/repositories/snapshots") {
-                authentication(userName: nexusUsername, password: nexusPassword)
-            }
-            uniqueVersion = true
         }
     }
 }
 
 repositories {
-    mavenLocal()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    jcenter()
+    maven { url "https://build-inera.nordicmedtest.se/nexus/content/repositories/releases/" }
+    maven { url "https://build-inera.nordicmedtest.se/nexus/content/repositories/snapshots/" }
+    mavenCentral()
 }
 
 dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.7'
     compile gradleApi()
-    compile "org.codehaus.groovy:groovy-all:2.3.6"
 
-    testCompile 'org.spockframework:spock-core:1.0-groovy-2.3'
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 
     deployerJars "org.apache.maven.wagon:wagon-webdav:1.0-beta-2"
 }

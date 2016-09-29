@@ -17,16 +17,12 @@ class FitnessePlugin implements Plugin<Project> {
             fitnesse
         }
 
-        project.dependencies {
-            fitnesse "org.fitnesse:fitnesse:20140901"
-        }
-
         project.task('fitnesseWiki', type: Fitnesse, dependsOn: project.build) {
-            description "Start the Fitnesse Wiki for editing tests"
+            description "Start the Fitnesse Wiki for editing tests."
         }
 
         project.task('fitnesseTest', type: Fitnesse, dependsOn: project.build) {
-            description "Run Fitnesse tests, outputting summary to console"
+            description "Run Fitnesse tests. Output summary to console."
             outputs.upToDateWhen { false }
             useStartPage = true
             if (project.hasProperty('fileOutput')) {
@@ -40,7 +36,7 @@ class FitnessePlugin implements Plugin<Project> {
             conventionMapping.workingDir = { extension.workingDir }
             conventionMapping.extraProperties = { extension.extraProperties }
             conventionMapping.wikiStartPage = { extension.wikiStartPage }
-            conventionMapping.outputFormat = { extension.outputFormat } 
+            conventionMapping.outputFormat = { extension.outputFormat }
         }
     }
 

@@ -30,14 +30,14 @@ class FitnessePluginSpec extends Specification {
 
         Task wikiTask = project.tasks.findByName(WIKI_TASK_NAME)
         wikiTask != null
-        wikiTask.description == "Start the Fitnesse Wiki for editing tests"
+        wikiTask.description == "Start the Fitnesse Wiki for editing tests."
         wikiTask.getPort() == 8125
         wikiTask.getRoot() == "myFitNesseRoot"
         wikiTask.getWorkingDir() == "src/test/fitnesseStart"
 
         Task testTask = project.tasks.findByName(TEST_TASK_NAME)
         testTask != null
-        testTask.description == "Run Fitnesse tests, outputting summary to console"
+        testTask.description == "Run Fitnesse tests. Output summary to console."
         testTask.getPort() == 8125
         testTask.getRoot() == "myFitNesseRoot"
         testTask.getWorkingDir() == "src/test/fitnesseStart"

@@ -2,7 +2,6 @@ package se.inera.fitnesse
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
-import org.gradle.internal.SystemProperties;
 
 class Fitnesse extends DefaultTask {
     def port
@@ -20,14 +19,15 @@ class Fitnesse extends DefaultTask {
         def startArgs
 
         if (!useStartPage) {
-            startArgs = ['-p', getPort(), '-e', '0', '-d', getWorkingDir(),'-r', getRoot(), '-o'] + extraArgs
+            startArgs = ['-p', getPort(), '-e', '0', '-d', getWorkingDir(), '-r', getRoot(), '-o'] + extraArgs
         } else {
-            startArgs = ['-p', getPort(), '-e', '0', '-d', getWorkingDir(), '-c', getWikiStartPage()+"?suite&format="+getOutputFormat(),'-r', getRoot(), '-o'] + extraArgs
+            startArgs = ['-p', getPort(), '-e', '0', '-d', getWorkingDir(), '-c', getWikiStartPage() + "?suite&format=" + getOutputFormat(), '-r', getRoot(), '-o'] + extraArgs
         }
 
         if (outputToFile) {
             startArgs.addAll(['-b', 'fitnesse-results.xml'])
         }
+
         project.javaexec {
             main = "fitnesse.FitNesse"
             classpath = project.configurations.fitnesse
@@ -38,8 +38,8 @@ class Fitnesse extends DefaultTask {
     }
 
     def mavenPathAsWikiPaths() {
-        // All jars built in this project plus dependency jars
-        (project.configurations.archives.artifacts.files + project.configurations.runtime.asFileTree).collect { file ->
+        // All jars built in this project plus fitnesse dependency jars
+        (project.configurations.archives.artifacts.files + project.configurations.fitnesse.asFileTree).collect { file ->
             "!path ${file.path}"
         }.join("\n")
     }
