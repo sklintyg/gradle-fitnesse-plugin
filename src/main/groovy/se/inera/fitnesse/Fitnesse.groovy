@@ -17,7 +17,6 @@ class Fitnesse extends DefaultTask {
     @TaskAction
     def runFitnesse() {
         def startArgs
-
         if (!useStartPage) {
             startArgs = ['-p', getPort(), '-e', '0', '-d', getWorkingDir(), '-r', getRoot(), '-o'] + extraArgs
         } else {
@@ -25,7 +24,19 @@ class Fitnesse extends DefaultTask {
         }
 
         if (outputToFile) {
-            startArgs.addAll(['-b', 'fitnesse-results.xml'])
+	    def fileFormat
+	    switch (getOutputFormat()) {
+    	      case 'html':
+	        fileFormat = 'html'
+	        break
+ 	      case 'text':
+	        fileFormat = 'txt'
+     	        break
+	      default:
+	        fileFormat = 'xml'
+  	        break
+	    }
+	    startArgs.addAll(['-b', 'fitnesse-results.' + fileFormat])
         }
 
         project.javaexec {
