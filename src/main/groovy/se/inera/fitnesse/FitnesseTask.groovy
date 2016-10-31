@@ -3,7 +3,7 @@ package se.inera.fitnesse
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
-class Fitnesse extends DefaultTask {
+class FitnesseTask extends DefaultTask {
     def port
     def root
     def workingDir

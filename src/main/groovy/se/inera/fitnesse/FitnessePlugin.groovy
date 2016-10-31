@@ -17,11 +17,11 @@ class FitnessePlugin implements Plugin<Project> {
             fitnesse
         }
 
-        project.task('fitnesseWiki', type: Fitnesse, dependsOn: project.build) {
+        project.task('fitnesseWiki', type: FitnesseTask, dependsOn: project.build) {
             description "Start the Fitnesse Wiki for editing tests."
         }
 
-        project.task('fitnesseTest', type: Fitnesse, dependsOn: project.build) {
+        project.task('fitnesseTest', type: FitnesseTask, dependsOn: project.build) {
             description "Run Fitnesse tests. Output summary to console."
             outputs.upToDateWhen { false }
             useStartPage = true
@@ -30,7 +30,7 @@ class FitnessePlugin implements Plugin<Project> {
             }
         }
 
-        project.tasks.withType(Fitnesse) {
+        project.tasks.withType(FitnesseTask) {
             conventionMapping.port = { extension.port }
             conventionMapping.root = { extension.root }
             conventionMapping.workingDir = { extension.workingDir }
