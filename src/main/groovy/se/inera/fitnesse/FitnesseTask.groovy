@@ -6,6 +6,7 @@ import org.gradle.api.tasks.TaskAction
 class FitnesseTask extends DefaultTask {
     def port
     def root
+    def mainClass
     def workingDir
     def extraProperties
     def extraArgs = []
@@ -40,7 +41,7 @@ class FitnesseTask extends DefaultTask {
         }
 
         project.javaexec {
-            main = "fitnesse.FitNesse"
+            main = getMainClass()
             classpath = project.configurations.fitnesse
             systemProperties = ["maven.classpath": mavenPathAsWikiPaths()]
             systemProperties << getExtraProperties()

@@ -31,6 +31,7 @@ class FitnessePlugin implements Plugin<Project> {
         }
 
         project.tasks.withType(FitnesseTask) {
+            conventionMapping.mainClass = { extension.mainClass }
             conventionMapping.port = { extension.port }
             conventionMapping.root = { extension.root }
             conventionMapping.workingDir = { extension.workingDir }
