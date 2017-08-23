@@ -1,5 +1,6 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
+apply plugin: 'java-gradle-plugin'
 
 group = 'se.inera.intyg.plugin.fitnesse'
 
@@ -7,6 +8,15 @@ version = System.properties['buildVersion'] ?: '1.1-SNAPSHOT'
 
 configurations {
     deployerJars
+}
+
+gradlePlugin {
+    plugins {
+        intygPlugin {
+            id = "se.inera.intyg.plugin.fitnesse"
+            implementationClass = "se.inera.fitnesse.FitnessePlugin"
+        }
+    }
 }
 
 task tagRelease {

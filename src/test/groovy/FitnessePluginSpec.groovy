@@ -18,7 +18,7 @@ class FitnessePluginSpec extends Specification {
         project.tasks.findByName(WIKI_TASK_NAME) == null
         project.tasks.findByName(TEST_TASK_NAME) == null
         when:
-        project.apply plugin: 'inera-fitnesse'
+        project.apply plugin: 'se.inera.intyg.plugin.fitnesse'
         project.fitnesse {
             port = 8125
             root = 'myFitNesseRoot'
