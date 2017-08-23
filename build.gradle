@@ -1,7 +1,7 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
 
-group = 'se.inera.intyg'
+group = 'se.inera.intyg.plugin.fitnesse'
 
 version = System.properties['buildVersion'] ?: '1.1-SNAPSHOT'
 
@@ -34,7 +34,7 @@ uploadArchives {
 }
 
 dependencies {
-    compile "org.codehaus.groovy:groovy-all:2.4.7"
+    compile "org.codehaus.groovy:groovy-all:2.4.11"
     compile gradleApi()
 
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'

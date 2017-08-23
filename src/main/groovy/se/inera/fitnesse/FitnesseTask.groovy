@@ -43,8 +43,7 @@ class FitnesseTask extends DefaultTask {
         project.javaexec {
             main = getMainClass()
             classpath = project.configurations.fitnesse
-            systemProperties = ["maven.classpath": mavenPathAsWikiPaths()]
-            systemProperties << getExtraProperties()
+            systemProperties = ["maven.classpath": mavenPathAsWikiPaths()] << getExtraProperties()
             args = startArgs
         }
     }
