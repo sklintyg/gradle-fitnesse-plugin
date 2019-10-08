@@ -23,7 +23,7 @@ task tagRelease {
     description = 'Tags the current head with the projects version.'
     doLast {
         def grgit = org.ajoberstar.grgit.Grgit.open(creds: new org.ajoberstar.grgit.Credentials(System.properties['githubUser'],
-                                                                                                System.properties['githubPassword']))
+                System.properties['githubPassword']))
         grgit.tag.add {
             name = "v" + version
             message = "Release of ${version}"
@@ -44,29 +44,33 @@ uploadArchives {
 }
 
 dependencies {
-    compile "org.codehaus.groovy:groovy-all:2.4.11"
+    compile "org.codehaus.groovy:groovy-all:2.5.8"
     compile gradleApi()
 
-    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    testCompile 'org.spockframework:spock-core:1.3-groovy-2.5'
 
     deployerJars "org.apache.maven.wagon:wagon-webdav:1.0-beta-2"
 }
 
 repositories {
-    maven { url "https://build-inera.nordicmedtest.se/nexus/repository/releases/" }
-    maven { url "https://build-inera.nordicmedtest.se/nexus/content/repositories/snapshots/" }
-    mavenCentral()
+    mavenLocal()
+    maven { url "https://build-inera.nordicmedtest.se/nexus/repository/public/" }
+    jcenter {
+        content {
+            // this repository contains everything BUT artifacts with group starting with "se.inera"
+            excludeGroupByRegex "se\\.inera.*"
+        }
+    }
 }
 
 buildscript {
     dependencies {
-        classpath 'org.ajoberstar:gradle-git:1.+'
+        classpath 'org.ajoberstar.grgit:grgit-core:3.1.1'
     }
 
     repositories {
         mavenLocal()
-        maven { url "https://build-inera.nordicmedtest.se/nexus/repository/releases/" }
-        maven { url "https://build-inera.nordicmedtest.se/nexus/content/repositories/snapshots/" }
+        maven { url "https://build-inera.nordicmedtest.se/nexus/repository/public/" }
         maven { url "https://plugins.gradle.org/m2/" }
     }
 }

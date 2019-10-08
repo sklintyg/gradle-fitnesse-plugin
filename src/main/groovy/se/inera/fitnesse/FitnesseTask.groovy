@@ -1,18 +1,29 @@
 package se.inera.fitnesse
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
 class FitnesseTask extends DefaultTask {
+    @Input
     def port
+    @Input
     def root
+    @Input
     def mainClass
+    @Input
     def workingDir
+    @Input
     def extraProperties
+    @Input
     def extraArgs = []
+    @Input
     def wikiStartPage
+    @Input
     def outputFormat
+    @Input
     def boolean useStartPage = false
+    @Input
     def boolean outputToFile = false
 
     @TaskAction
