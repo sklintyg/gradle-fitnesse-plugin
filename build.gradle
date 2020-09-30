@@ -70,7 +70,7 @@ buildscript {
 
     repositories {
         mavenLocal()
-        maven { url "https://nexus.drift.inera.se/repository/maven-public/" }
+        maven { url "https://nexus.drift.inera.se/repository/it-public/" }
         maven { url "https://plugins.gradle.org/m2/" }
     }
 }
