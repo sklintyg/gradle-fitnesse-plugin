@@ -54,7 +54,7 @@ dependencies {
 
 repositories {
     mavenLocal()
-    maven { url "https://build-inera.nordicmedtest.se/nexus/repository/public/" }
+    maven { url "https://nexus.drift.inera.se/repository/it-public/" }
     jcenter {
         content {
             // this repository contains everything BUT artifacts with group starting with "se.inera"
