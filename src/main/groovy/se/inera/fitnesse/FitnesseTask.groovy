@@ -10,7 +10,7 @@ class FitnesseTask extends DefaultTask {
     @Input
     def root
     @Input
-    def mainClass
+    def fitnesseMainClass
     @Input
     def workingDir
     @Input
@@ -22,9 +22,9 @@ class FitnesseTask extends DefaultTask {
     @Input
     def outputFormat
     @Input
-    def boolean useStartPage = false
+    boolean useStartPage = false
     @Input
-    def boolean outputToFile = false
+    boolean outputToFile = false
 
     @TaskAction
     def runFitnesse() {
@@ -52,7 +52,7 @@ class FitnesseTask extends DefaultTask {
         }
 
         project.javaexec {
-            main = getMainClass()
+            main = getFitnesseMainClass()
             classpath = project.configurations.fitnesse
             systemProperties = ["maven.classpath": mavenPathAsWikiPaths()] << getExtraProperties()
             args = startArgs
