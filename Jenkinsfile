@@ -11,12 +11,12 @@ stage('checkout') {
 
 stage('build') {
     node {
-        shgradle "--refresh-dependencies clean build -DbuildVersion=${buildVersion}"
+        shgradle11 "--refresh-dependencies clean build -DbuildVersion=${buildVersion}"
     }
 }
 
 stage('tag and upload') {
     node {
-        shgradle "uploadArchives tagRelease -DbuildVersion=${buildVersion}"
+        shgradle11 "uploadArchives tagRelease -DbuildVersion=${buildVersion}"
     }
 }
