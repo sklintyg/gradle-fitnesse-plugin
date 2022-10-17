@@ -9,7 +9,7 @@ plugins {
 
 group = 'se.inera.intyg.plugin.fitnesse'
 
-version = System.properties['buildVersion'] ?: '1.1.0-SNAPSHOT'
+version = System.properties['buildVersion'] ?: '1.1.1-SNAPSHOT'
 
 configurations {
     deployerJars
@@ -71,17 +71,5 @@ repositories {
             // this repository contains everything BUT artifacts with group starting with "se.inera"
             excludeGroupByRegex "se\\.inera.*"
         }
-    }
-}
-
-buildscript {
-    dependencies {
-        classpath 'org.ajoberstar.grgit:grgit-core:5.0.0'
-    }
-
-    repositories {
-        mavenLocal()
-        maven { url "https://nexus.drift.inera.se/repository/it-public/" }
-        maven { url "https://plugins.gradle.org/m2/" }
     }
 }

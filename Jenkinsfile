@@ -1,6 +1,6 @@
 #!groovy
 
-def buildVersion = "1.1.0"
+def buildVersion = "1.1.1"
 
 stage('checkout') {
     node {
@@ -17,6 +17,6 @@ stage('build') {
 
 stage('tag and upload') {
     node {
-        shgradle11 "uploadArchives tagRelease -DbuildVersion=${buildVersion}"
+        shgradle11 "publishPluginMavenPublicationToMavenRepository tagRelease -DbuildVersion=${buildVersion}"
     }
 }
