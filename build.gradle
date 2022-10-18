@@ -10,7 +10,6 @@ plugins {
 }
 
 group = 'se.inera.intyg.plugin.fitnesse'
-
 version = System.properties['buildVersion'] ?: '1.1.2-SNAPSHOT'
 
 configurations {
@@ -34,10 +33,12 @@ task install {
 task tagRelease {
     description = "Tags the current head with the projects version."
     doLast {
-        def git = Git(FileRepositoryBuilder().setGitDir(File(project.rootProject.projectDir, ".git")).readEnvironment().findGitDir().build())
+        def file = new File(project.rootProject.projectDir, ".git")
+        def git = new Git(new FileRepositoryBuilder().setGitDir(file).readEnvironment().findGitDir().build())
+        def credsProvider = new UsernamePasswordCredentialsProvider(System.getProperty("githubUser") as String,
+                System.getProperty("githubPassword") as String)
         git.tag().setName("v${project.version}").setMessage("Release of ${project.version}").call()
-        git.push().setCredentialsProvider(UsernamePasswordCredentialsProvider(System.getProperty("githubUser"), System.getProperty("githubPassword")))
-                .setPushTags().call()
+        git.push().setCredentialsProvider(credsProvider).setPushTags().call()
     }
 }
 
@@ -72,3 +73,4 @@ repositories {
         }
     }
 }
+
