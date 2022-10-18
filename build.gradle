@@ -1,12 +1,15 @@
 import org.ajoberstar.grgit.Grgit
 
-apply plugin: 'groovy'
-apply plugin: 'maven'
-apply plugin: 'java-gradle-plugin'
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+    id 'java-gradle-plugin'
+    id "org.ajoberstar.grgit" version "4.1.1"
+}
 
 group = 'se.inera.intyg.plugin.fitnesse'
 
-version = System.properties['buildVersion'] ?: '1.1.0-SNAPSHOT'
+version = System.properties['buildVersion'] ?: '1.1.1-SNAPSHOT'
 
 configurations {
     deployerJars
@@ -19,6 +22,11 @@ gradlePlugin {
             implementationClass = "se.inera.fitnesse.FitnessePlugin"
         }
     }
+}
+
+task install {
+    description("Publishes artifact to local maven repository.")
+    dependsOn(publishToMavenLocal)
 }
 
 task tagRelease {
@@ -34,22 +42,23 @@ task tagRelease {
     }
 }
 
-uploadArchives {
+publishing {
     repositories {
-        mavenDeployer {
-            configuration = configurations.deployerJars
-            repository(url: "https://nexus.drift.inera.se/repository/maven-releases/") {
-                authentication(userName: System.properties['ineraNexusUsername'], password: System.properties['ineraNexusPassword'])
+        maven {
+            url = uri("https://nexus.drift.inera.se/repository/maven-releases/")
+            credentials {
+                username = System.properties['ineraNexusUsername']
+                password = System.properties['ineraNexusPassword']
             }
         }
     }
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:3.0.12'
-    compile gradleApi()
+    implementation 'org.codehaus.groovy:groovy-all:3.0.12'
+    implementation gradleApi()
 
-    testCompile 'org.spockframework:spock-core:2.2-groovy-2.5'
+    testImplementation 'org.spockframework:spock-core:2.2-groovy-2.5'
 
     deployerJars "org.apache.maven.wagon:wagon-webdav-jackrabbit:3.5.2"
 }
@@ -62,17 +71,5 @@ repositories {
             // this repository contains everything BUT artifacts with group starting with "se.inera"
             excludeGroupByRegex "se\\.inera.*"
         }
-    }
-}
-
-buildscript {
-    dependencies {
-        classpath 'org.ajoberstar.grgit:grgit-core:5.0.0'
-    }
-
-    repositories {
-        mavenLocal()
-        maven { url "https://nexus.drift.inera.se/repository/it-public/" }
-        maven { url "https://plugins.gradle.org/m2/" }
     }
 }
