@@ -1,4 +1,6 @@
-import org.ajoberstar.grgit.Grgit
+import org.eclipse.jgit.api.Git
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 
 plugins {
     id 'groovy'
@@ -8,8 +10,7 @@ plugins {
 }
 
 group = 'se.inera.intyg.plugin.fitnesse'
-
-version = System.properties['buildVersion'] ?: '1.1.1-SNAPSHOT'
+version = System.properties['buildVersion'] ?: '1.1.2-SNAPSHOT'
 
 configurations {
     deployerJars
@@ -30,15 +31,14 @@ task install {
 }
 
 task tagRelease {
-    description = 'Tags the current head with the projects version.'
+    description = "Tags the current head with the projects version."
     doLast {
-        def grgit = Grgit.open(creds: new org.ajoberstar.grgit.Credentials(System.properties['githubUser'],
-                System.properties['githubPassword']))
-        grgit.tag.add {
-            name = "v" + version
-            message = "Release of ${version}"
-        }
-        grgit.push(tags: true)
+        def file = new File(project.rootProject.projectDir, ".git")
+        def git = new Git(new FileRepositoryBuilder().setGitDir(file).readEnvironment().findGitDir().build())
+        def credsProvider = new UsernamePasswordCredentialsProvider(System.getProperty("githubUser") as String,
+                System.getProperty("githubPassword") as String)
+        git.tag().setName("v${project.version}").setMessage("Release of ${project.version}").call()
+        git.push().setCredentialsProvider(credsProvider).setPushTags().call()
     }
 }
 
@@ -73,3 +73,4 @@ repositories {
         }
     }
 }
+
