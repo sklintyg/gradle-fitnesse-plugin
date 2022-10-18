@@ -1,4 +1,6 @@
-import org.ajoberstar.grgit.Grgit
+import org.eclipse.jgit.api.Git
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 
 apply plugin: 'groovy'
 apply plugin: 'maven'
@@ -22,15 +24,12 @@ gradlePlugin {
 }
 
 task tagRelease {
-    description = 'Tags the current head with the projects version.'
+    description = "Tags the current head with the projects version."
     doLast {
-        def grgit = Grgit.open(creds: new org.ajoberstar.grgit.Credentials(System.properties['githubUser'],
-                System.properties['githubPassword']))
-        grgit.tag.add {
-            name = "v" + version
-            message = "Release of ${version}"
-        }
-        grgit.push(tags: true)
+        def git = Git(FileRepositoryBuilder().setGitDir(File(project.rootProject.projectDir, ".git")).readEnvironment().findGitDir().build())
+        git.tag().setName("v${project.version}").setMessage("Release of ${project.version}").call()
+        git.push().setCredentialsProvider(UsernamePasswordCredentialsProvider(System.getProperty("githubUser"), System.getProperty("githubPassword")))
+                .setPushTags().call()
     }
 }
 
