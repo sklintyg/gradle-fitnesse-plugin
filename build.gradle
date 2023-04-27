@@ -10,7 +10,7 @@ plugins {
 }
 
 group = 'se.inera.intyg.plugin.fitnesse'
-version = System.properties['buildVersion'] ?: '1.1.2-SNAPSHOT'
+version = System.properties['buildVersion'] ?: '1.1.3-SNAPSHOT'
 
 configurations {
     deployerJars
@@ -38,7 +38,7 @@ task tagRelease {
         def credsProvider = new UsernamePasswordCredentialsProvider(System.getProperty("githubUser") as String,
                 System.getProperty("githubPassword") as String)
         git.tag().setName("v${project.version}").setMessage("Release of ${project.version}").call()
-        git.push().setCredentialsProvider(credsProvider).setPushTags().call()
+        git.push().setCredentialsProvider(credsProvider).setPushAll().setPushTags().call()
     }
 }
 
@@ -73,4 +73,3 @@ repositories {
         }
     }
 }
-
