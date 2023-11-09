@@ -65,5 +65,4 @@ class FitnesseTask extends DefaultTask {
             "!path ${file.path}"
         }.join("\n")
     }
-
 }

@@ -10,11 +10,9 @@ plugins {
 }
 
 group = 'se.inera.intyg.plugin.fitnesse'
-version = System.properties['buildVersion'] ?: '1.1.3-SNAPSHOT'
+version = System.properties['buildVersion'] ?: '1.1.4-SNAPSHOT'
 
-configurations {
-    deployerJars
-}
+configurations { deployerJars }
 
 gradlePlugin {
     plugins {
@@ -25,12 +23,12 @@ gradlePlugin {
     }
 }
 
-task install {
+tasks.register('install') {
     description("Publishes artifact to local maven repository.")
     dependsOn(publishToMavenLocal)
 }
 
-task tagRelease {
+tasks.register('tagRelease') {
     description = "Tags the current head with the projects version."
     doLast {
         def file = new File(project.rootProject.projectDir, ".git")
@@ -55,12 +53,9 @@ publishing {
 }
 
 dependencies {
-    implementation 'org.codehaus.groovy:groovy-all:3.0.12'
-    implementation gradleApi()
-
-    testImplementation 'org.spockframework:spock-core:2.2-groovy-2.5'
-
-    deployerJars "org.apache.maven.wagon:wagon-webdav-jackrabbit:3.5.2"
+    implementation 'org.codehaus.groovy:groovy-all:3.0.17'
+    testImplementation 'org.spockframework:spock-core:2.3-groovy-3.0'
+    deployerJars "org.apache.maven.wagon:wagon-webdav-jackrabbit:3.5.3"
 }
 
 repositories {
@@ -68,7 +63,6 @@ repositories {
     maven { url "https://nexus.drift.inera.se/repository/it-public/" }
     mavenCentral {
         content {
-            // this repository contains everything BUT artifacts with group starting with "se.inera"
             excludeGroupByRegex "se\\.inera.*"
         }
     }
