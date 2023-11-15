@@ -13,15 +13,15 @@ class FitnessePlugin implements Plugin<Project> {
 
         def extension = project.extensions.create(EXTENSION_NAME, FitnessePluginExtension)
 
-        project.configurations {
-            fitnesse
-        }
+        project.configurations { fitnesse }
 
-        project.task('fitnesseWiki', type: FitnesseTask, dependsOn: project.build) {
+        project.tasks.register("fitnesseWiki", FitnesseTask) {
+            dependsOn project.build
             setDescription("Start the Fitnesse Wiki for editing tests.")
         }
 
-        project.task('fitnesseTest', type: FitnesseTask, dependsOn: project.build) {
+        project.tasks.register("fitnesseTest", FitnesseTask) {
+            dependsOn project.build
             setDescription("Run Fitnesse tests. Output summary to console.")
             outputs.upToDateWhen { false }
             useStartPage = true
@@ -30,15 +30,16 @@ class FitnessePlugin implements Plugin<Project> {
             }
         }
 
-        project.tasks.withType(FitnesseTask) {
-            conventionMapping.fitnesseMainClass = { extension.fitnesseMainClass }
-            conventionMapping.port = { extension.port }
-            conventionMapping.root = { extension.root }
-            conventionMapping.workingDir = { extension.workingDir }
-            conventionMapping.extraProperties = { extension.extraProperties }
-            conventionMapping.wikiStartPage = { extension.wikiStartPage }
-            conventionMapping.outputFormat = { extension.outputFormat }
+        project.tasks.withType(FitnesseTask).tap {
+            configureEach {
+                conventionMapping.fitnesseMainClass = { extension.fitnesseMainClass }
+                conventionMapping.port = { extension.port }
+                conventionMapping.root = { extension.root }
+                conventionMapping.workingDir = { extension.workingDir }
+                conventionMapping.extraProperties = { extension.extraProperties }
+                conventionMapping.wikiStartPage = { extension.wikiStartPage }
+                conventionMapping.outputFormat = { extension.outputFormat }
+            }
         }
     }
-
 }
