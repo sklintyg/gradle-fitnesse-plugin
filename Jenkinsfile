@@ -1,7 +1,7 @@
 #!groovy
 
 node {
-    def buildVersion = "1.1.4"
+    def buildVersion = "1.2.1"
 
     stage('checkout') {
         git url: "https://github.com/sklintyg/gradle-fitnesse-plugin.git", branch: GIT_BRANCH

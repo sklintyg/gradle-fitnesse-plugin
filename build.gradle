@@ -10,7 +10,7 @@ plugins {
 }
 
 group = 'se.inera.intyg.plugin.fitnesse'
-version = System.properties['buildVersion'] ?: '1.1.4-SNAPSHOT'
+version = System.properties['buildVersion'] ?: '1.2.1-SNAPSHOT'
 
 configurations { deployerJars }
 
